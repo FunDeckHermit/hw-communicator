@@ -45,7 +45,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 1.0
+          "min_clearance": 0.39999999999999997
         }
       },
       "diff_pair_dimensions": [
@@ -351,7 +351,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "Sinterklaas-Lora.kicad_pro",
+    "filename": "Wasbeer-communicator.kicad_pro",
     "version": 1
   },
   "net_settings": {
