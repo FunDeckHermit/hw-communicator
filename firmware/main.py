@@ -1,13 +1,15 @@
 from machine import Pin
-from statemachine import LinearStateMachine, TimeBasedStateMachine
+from statemachine import LinearStateMachine, CallbackWaitingStateMachine
 from pins import Pins
 import time
 
 proj_pins = Pins()
 ledlist = proj_pins.get_output_led_list()
+proj_pins.set_max_pwm_u16(5000)
+
 
 btn_sm = LinearStateMachine(n_states=10)
-sel_sm = TimeBasedStateMachine(n_states=2)
+sel_sm = CallbackWaitingStateMachine(n_states=2)
 interrupt_flag = 0
 lastclick_time = 0
 selected = 0
@@ -30,7 +32,7 @@ def next_selection():
   
 def debounce(pin):
     global lastclick_time
-    if (time.ticks_ms()-lastclick_time) > 42:
+    if (time.ticks_ms()-lastclick_time) > 242:
         lastclick_time=time.ticks_ms()
         next_selection()
 
@@ -64,7 +66,7 @@ def blink_selected():
 
 proj_pins.big_button.irq(trigger=Pin.IRQ_FALLING, handler=debounce)
 sel_sm.setwaitcallback(state_index=0, waittime=1000, callback=check_choice)
-sel_sm.setwaittime(state_index=1, waittime=2000, auto=True)
+sel_sm.setwaittime(state_index=1, waittime=3000, auto=True)
 while True:
     time.sleep(0.042)
     increment_loopcount()
