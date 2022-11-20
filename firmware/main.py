@@ -1,7 +1,10 @@
 from machine import Pin
 from statemachine import LinearStateMachine, CallbackWaitingStateMachine
+from wifi import connect
 from pins import Pins
+
 import time
+import random
 
 proj_pins = Pins()
 ledlist = proj_pins.get_output_led_list()
@@ -14,6 +17,7 @@ interrupt_flag = 0
 lastclick_time = 0
 selected = 0
 loop_count = 0
+
 
 def check_choice():
     global btn_sm, selected
@@ -67,6 +71,10 @@ def blink_selected():
 proj_pins.big_button.irq(trigger=Pin.IRQ_FALLING, handler=debounce)
 sel_sm.setwaitcallback(state_index=0, waittime=1000, callback=check_choice)
 sel_sm.setwaittime(state_index=1, waittime=3000, auto=True)
+
+if not connect():
+    print("cannot connect to Wifi")
+
 while True:
     time.sleep(0.042)
     increment_loopcount()

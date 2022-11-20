@@ -40,7 +40,7 @@ class WaitTimeStateMachine(LinearStateMachine):
     def next_state(self):
         wt = self.waittimes[self.index]
         if wt is -1:
-            self.conditional_advance(self)
+            self.advance(self)
             return
         self.oneshottimer.deinit()
         self.oneshottimer.init(mode=Timer.ONE_SHOT, period=wt, callback=self.advance)
@@ -72,6 +72,7 @@ class CallbackWaitingStateMachine(WaitTimeStateMachine):
         super().next_state()
     
     def advance(self, *_):
+        print(f"Trying to advance from state {self.index}")
         if self.callbacks[self.index] and self.callbacks[self.index]() == False:
             """Callback set but unsuccesfull"""
             return        

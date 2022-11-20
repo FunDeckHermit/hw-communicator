@@ -3,6 +3,8 @@ from machine import Pin, PWM
 
 class Pins:
     def __init__(self):
+        self.maxpwm = 2**16
+        
         self.big_button = Pin(26, Pin.IN, Pin.PULL_UP)
 
         self.led0_inbuilt = Pin('LED', Pin.OUT)
@@ -19,10 +21,12 @@ class Pins:
         self.led7_vergeten = PWM(Pin(7, Pin.OUT))
         self.led8_denk = PWM(Pin(3, Pin.OUT))
         self.led9_succes = PWM(Pin(2, Pin.OUT))
-        
-        self.maxpwm = 2000
+            
         self.selectable_leds = [self.led0_inbuilt, self.led1_heart, self.led2_ja, self.led3_nee, self.led4_kook, self.led5_later, self.led6_huis, self.led7_vergeten, self.led8_denk, self.led9_succes]
 
+    def set_max_pwm_u16(self, maxvalue):
+        self.maxpwm = maxvalue
+    
     def get_output_led_list(self):
         return self.selectable_leds
     
